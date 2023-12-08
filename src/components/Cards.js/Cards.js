@@ -8,7 +8,7 @@ function Cards() {
     const [data,setData]= useState([]);
 
     useEffect(() => {
-        axios.get('http://localhost:4000/subjects') // Add http:// or https:// here
+        axios.get('http://localhost:4000/subjects') // Add http:// or https://
             .then((res) => {
                 console.log(res.data.allSubject);
                 setData(res.data.allSubject)
@@ -22,7 +22,6 @@ function Cards() {
     const takeExam = (data)=>{
      console.log(data)
     }
-
 
 
   return (
