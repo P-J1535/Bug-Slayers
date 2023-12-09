@@ -3,72 +3,139 @@ import './Login.css';
 
 function Login() {
   const [isSignUpMode, setIsSignUpMode] = useState(false);
+  const [formData, setFormData] = useState({
+    username: '',
+    password: '',
+  });
+
+  const [signupData, setSignupData] = useState({
+    username: '',
+    password: '',
+    phone: '',
+    email: '',
+    userType: '', // For the userType selection
+  });
+
+
+  const handleSignUp = (e) => {
+    e.preventDefault();
+    // Process signup logic here using 'signupData'
+    console.log('Signup Data:', signupData);
+  };
 
   const handleToggleMode = () => {
     setIsSignUpMode((prevMode) => !prevMode);
+  };
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+    // Process login logic here using 'formData.username' and 'formData.password'
+    console.log('Username:', formData.username);
+    console.log('Password:', formData.password);
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+
+  const handleFormInputChange = (e) => {
+    const { name, value } = e.target;
+    setSignupData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
   };
 
   return (
 <div className={`container ${isSignUpMode ? 'sign-up-mode' : ''}`}>
       <div className="forms-container">
         <div className="signin-signup">
-          <form action="#" className="sign-in-form">
+            <form onSubmit={handleLogin} className="sign-in-form">
             <h2 className="title">Log in</h2>
             <div className="input-field">
               <i className="fas fa-user"></i>
-              <input type="text" placeholder="Username" />
+              <input
+                type="text"
+                placeholder="Username"
+                name="username"
+                value={formData.username}
+                onChange={handleInputChange}
+              />
             </div>
             <div className="input-field">
               <i className="fas fa-lock"></i>
-              <input type="password" placeholder="Password" />
+              <input
+                type="password"
+                placeholder="Password"
+                name="password"
+                value={formData.password}
+                onChange={handleInputChange}
+              />
             </div>
             <input type="submit" value="Login" className="btn solid" />
-            {/* <p className="social-text">Or Sign in with social platforms</p> */}
-            {/* <div className="social-media">
-              <a href="#" className="social-icon">
-                <i className="fab fa-facebook-f"></i>
-              </a>
-              <a href="#" className="social-icon">
-                <i className="fab fa-twitter"></i>
-              </a>
-              <a href="#" className="social-icon">
-                <i className="fab fa-google"></i>
-              </a>
-              <a href="#" className="social-icon">
-                <i className="fab fa-linkedin-in"></i>
-              </a>
-            </div> */}
           </form>
-          <form action="#" className="sign-up-form">
+          <form onSubmit={handleSignUp} className="sign-up-form">
             <h2 className="title">Sign up</h2>
             <div className="input-field">
               <i className="fas fa-user"></i>
-              <input type="text" placeholder="Username" />
+              <input
+                type="text"
+                placeholder="Username"
+                name="username"
+                value={signupData.username}
+                onChange={handleInputChange}
+              />
             </div>
             <div className="input-field">
               <i className="fas fa-envelope"></i>
-              <input type="email" placeholder="Email" />
+              <input
+                type="email"
+                placeholder="Email"
+                name="email"
+                value={signupData.email}
+                onChange={handleInputChange}
+              />
             </div>
             <div className="input-field">
               <i className="fas fa-lock"></i>
-              <input type="password" placeholder="Password" />
+              <input
+                type="password"
+                placeholder="Password"
+                name="password"
+                value={signupData.password}
+                onChange={handleInputChange}
+              />
+            </div>
+            <div className="input-field">
+              <i className="fas fa-phone"></i>
+              <input
+                type="text"
+                placeholder="Phone"
+                name="phone"
+                value={signupData.phone}
+                onChange={handleInputChange}
+              />
+            </div>
+            <div className="input-field">
+            <select
+  name="userType"
+  value={signupData.userType}
+  onChange={handleInputChange}
+>
+  <option value="">Select User Type</option>
+  <option value="customer">Customer</option>
+  <option value="admin">Admin</option>
+  <option value="manager">Manager</option>
+  {/* Add other options as needed */}
+</select>
+
             </div>
             <input type="submit" className="btn" value="Sign up" />
-            {/* <p className="social-text">Or Sign up with social platforms</p> */}
-            {/* <div className="social-media">
-              <a href="#" className="social-icon">
-                <i className="fab fa-facebook-f"></i>
-              </a>
-              <a href="#" className="social-icon">
-                <i className="fab fa-twitter"></i>
-              </a>
-              <a href="#" className="social-icon">
-                <i className="fab fa-google"></i>
-              </a>
-              <a href="#" className="social-icon">
-                <i className="fab fa-linkedin-in"></i>
-              </a>
-            </div> */}
           </form>
         </div>
       </div>
