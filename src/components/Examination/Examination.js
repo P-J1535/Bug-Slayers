@@ -118,8 +118,7 @@
 
 
     return (
-        <Box sx={{px:3}}>
-        <Box className="count-card">
+        <Box sx={{mx:3}}>
         <Grid
   container
   sx={{ my: 2 }}
@@ -156,8 +155,7 @@
   {/* ... other grid items */}
 </Grid>
 
-        </Box>
-        <TableContainer component={Paper} style={{ maxHeight: '500px', overflow: 'auto' }}>
+        <TableContainer component={Paper} style={{ height: '500px', overflow: 'auto' }}>
                 <Table>
                     <TableHead>
                         <TableRow className={classes.tableHead}>
