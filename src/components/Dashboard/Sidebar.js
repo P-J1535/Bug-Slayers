@@ -20,6 +20,8 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { useDispatch } from "react-redux";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { setLogout } from "../state/authState";
+import { Routes,Route } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 
 
 import { Avatar } from "@mui/material";
@@ -29,6 +31,8 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import MenuItem from "@mui/material/MenuItem";
 
 import { useNavigate } from "react-router-dom";
+import Examination from "../Examination/Examination";
+import Test from "../Test.js/Test";
 
 const drawerWidth = 210;
 
@@ -38,7 +42,7 @@ const openedMixin = (theme) => ({
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.enteringScreen,
   }),
-  background: "#131E26",
+  background: "#5F98EF",
   color: "white",
 });
 
@@ -52,7 +56,7 @@ const closedMixin = (theme) => ({
   [theme.breakpoints.up("sm")]: {
     width: `calc(${theme.spacing(8)} + 1px)`,
   },
-  background: "#131E26",
+  background: "#5F98EF",
   color: "white",
 });
 
@@ -211,7 +215,7 @@ function Sidebar() {
               <IconButton
                 color="inherit"
                 aria-label="open drawer"
-                onClick={handleToggleSidebar}
+                // onClick={handleToggleSidebar}
                 edge="start"
                 sx={{
                   marginRight: 1,
@@ -240,8 +244,8 @@ function Sidebar() {
             <Drawer
               variant="permanent"
               open={open}
-              onMouseEnter={handleToggleSidebar}
-              onMouseLeave={handleDrawerClose}
+              // onMouseEnter={handleToggleSidebar}
+              // onMouseLeave={handleDrawerClose}
             >
               <DrawerHeader>
                 <IconButton onClick={handleDrawerClose}>
@@ -253,7 +257,7 @@ function Sidebar() {
                 <ListItem
                   disablePadding
                   onClick={() => {
-                    navigate("/Lms");
+                    navigate("/questionslab ");
                   }}
                 >
                   <ListItemButton
@@ -273,10 +277,41 @@ function Sidebar() {
                         color: "white",
                       }}
                     >
-                      Leads
+                      Question Lab
                     </ListItemText>
                   </ListItemButton>
                 </ListItem>
+
+
+                <ListItem
+                  disablePadding
+                  onClick={() => {
+                    navigate("/questionsSet ");
+                  }}
+                >
+                  <ListItemButton
+                    sx={{
+                      minHeight: 48,
+                      justifyContent: open ? "initial" : "center",
+                      px: 2.5,
+                    }}
+                  >
+                    <ListItemIcon>
+                      <PeopleAltIcon sx={{ color: "white" }} />
+                    </ListItemIcon>
+                    <ListItemText
+                      primaryTypographyProps={{
+                        fontSize: "14px",
+                        fontWeight: "600",
+                        color: "white",
+                      }}
+                    >
+                      Question Sets
+                    </ListItemText>
+                  </ListItemButton>
+                </ListItem>
+
+
 
 
                <List   sx={{ marginTop: 'auto' }}></List>
@@ -316,7 +351,26 @@ function Sidebar() {
               <List></List>
             </Drawer>
           </div>
-          {/* ... */}
+          <Box
+              component="main"
+              sx={{
+                flexGrow: 1,
+                backgroundColor: "black",
+                width: `100%`,
+                height: "calc(100vh - 65px)",
+                //  width:`calc(100% - ${drawerWidth})`,
+                zIndex: (theme) => theme.zIndex.drawer + 0,
+              }}
+            >
+              <Box sx={{ mt: 4 }}>
+                <Routes>
+                <Route path="questionslab" element={<Examination />} />
+                <Route path="questionsSet" element={<Test/>} />
+                  <Route path="" element={<Navigate to="/questionslab" />} />
+
+                  </Routes>
+               </Box>
+               </Box>
         </div>
       </Box>
     </>

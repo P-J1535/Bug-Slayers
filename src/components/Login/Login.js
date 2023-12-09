@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import './Login.css';
+import { useNavigate } from 'react-router';
 
 function Login() {
+    const navigate = useNavigate();
   const [isSignUpMode, setIsSignUpMode] = useState(false);
   const [formData, setFormData] = useState({
     username: '',
@@ -27,11 +29,31 @@ function Login() {
     setIsSignUpMode((prevMode) => !prevMode);
   };
 
-  const handleLogin = (e) => {
+
+  const handleLogin = async(e) => {
     e.preventDefault();
-    // Process login logic here using 'formData.username' and 'formData.password'
-    console.log('Username:', formData.username);
-    console.log('Password:', formData.password);
+    try {
+        const response = await fetch('https://pwf7r20w-3000.inc1.devtunnels.ms/user/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(formData), // Send the userData object as JSON in the request body
+        });
+  
+        if (response.ok) {
+          // Handle success, maybe show a success message
+          console.log('User login up successfully');
+          navigate('/');
+          
+        //   setUserData(null)
+        } else {
+          // Handle failure, maybe show an error message
+          console.error('Error login up user');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+      }
   };
 
   const handleInputChange = (e) => {
