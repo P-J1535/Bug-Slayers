@@ -86,7 +86,7 @@
     const fetchData = async () => {
         try {
         // Make an API call using Axios
-        const response = await axios.get("http://localhost:6000/question");
+        const response = await axios.get("http://localhost:5000/question");
         
         // Assuming the data is stored in response.data
 

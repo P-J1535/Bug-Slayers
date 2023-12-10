@@ -20,6 +20,7 @@ import {
 } from '@mui/material';
 
 import { makeStyles } from '@mui/styles';
+import CreateTest from './CreateTest';
 
 const useStyles = makeStyles({
     tableHead: {
@@ -113,6 +114,15 @@ const [testsData, settestsData] = useState([]);
 const [selectedQuestionSet, setSelectedQuestionSet] = useState(null);
   const [openQuestionSetModal, setOpenQuestionSetModal] = useState(false);
   const [openSendTestModal, setOpenSendTestModal] = useState(false);
+  const [openCreateTestModal ,setOPenCreateTestModal] = useState(false);
+  const handleCloseTest = () =>{
+    setOPenCreateTestModal(true);
+  }
+
+  const handleOpenTest = () =>{
+    setOPenCreateTestModal(true);
+  }
+
   const [selectedTestId, setSelectedTestId] = useState('');
   const [studentName, setStudentName] = useState('');
   const [studentEmail, setStudentEmail] = useState('');
@@ -168,7 +178,7 @@ const [selectedQuestionSet, setSelectedQuestionSet] = useState(null);
 const fetchData = async () => {
     try {
     // Make an API call using Axios
-    const response = await axios.get("http://localhost:6000/test");
+    const response = await axios.get("http://localhost:5000/test");
     
     // Assuming the data is stored in response.data
 
@@ -180,10 +190,31 @@ const fetchData = async () => {
     }
 };
 
+
+
+
 useEffect(() => {
     
     fetchData();
 }, []);
+
+
+const sendMail = async () => {
+  try {
+    const thisdata = {
+      testId: selectedQuestionSet?.testId,
+      emailId: studentEmail,
+      studentName: studentName
+    };
+
+    const response = await axios.post("http://localhost:5000/sendTest", thisdata);
+
+    console.log("success fully send mail");
+    handleCloseSendTestModal(); 
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+};
 
 
 const countOfCpp = () =>{
@@ -238,7 +269,7 @@ rowSpacing={{ xs: 2, sm: 2, md: 3 }}
 </Grid>
 
 <Box sx={{display:'flex',justifyContent:'flex-end',my:1}}>
-    <Button variant='contained' sx={{px:2}}>Create Test</Button>
+    <Button variant='contained' sx={{px:2}}  onClick={handleOpenTest}>Create Test</Button>
 </Box>
     <TableContainer component={Paper} style={{ height: '500px', overflow: 'auto' }}>
         <Table>
@@ -335,11 +366,17 @@ rowSpacing={{ xs: 2, sm: 2, md: 3 }}
             onChange={(e) => setStudentEmail(e.target.value)}
           />
           <Box sx={{display:'flex',justifyContent:'center',mt:2}}>
-          <Button variant='contained' onClick={handleSubmitTest}>Submit</Button>
+          <Button variant='contained' onClick={sendMail}>Submit</Button>
           </Box>
           </Box>
         </Box>
       </Modal>
+
+      <Modal open={openCreateTestModal} onClose={handleCloseTest}>
+            <Box style={style2}>
+              <CreateTest/>
+              </Box>
+              </Modal>
     </Box>
     );
 };

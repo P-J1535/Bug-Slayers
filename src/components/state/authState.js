@@ -43,32 +43,14 @@ export const authSlice=createSlice({
             state.entitlements = action.payload.entitlements;
             state.tabName =action.payload.tabName;
         },
-        setEnqId:(state,action)=>{
-            state.selectedIds=action.payload.selectedIds;
-        },
-        setStudentDetails:(state,action)=>{
-            state.studentData=action.payload.studentData;
-        },
-        setReceipt:(state,action)=>{
-            state.receiptObj=action.payload.receiptObj;
-        },
-        setSalesRoleData:(state,action)=>{
-            state.salesRole=action.payload.salesRole;
-
-        } 
-        ,
-        setProfilePicture:(state,action)=>{
-            state.userProfilePic=action.payload.userProfilePic;
-
-        } 
+       
 
     }
 
 })
 
 
-export const {setLogin,setLogout,setUserDetails,setEnqId,setStudentDetails,
-    setSalesRoleData,setReceipt,setProfilePicture}=authSlice.actions;
+export const {setLogin,setLogout,setUserDetails}=authSlice.actions;
 
 
 export default authSlice.reducer;
