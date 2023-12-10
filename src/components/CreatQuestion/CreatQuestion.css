@@ -1,0 +1,25 @@
+/* CreatQuestion.css */
+
+.container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    /* background-color: #1a237e; */
+    color: #3d06f4;
+  }
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .dropdown {
+    width: 45%;
+  }
+  
+  .form-section {
+    margin-bottom: 20px;
+  }
+  
+  /* Add more styles based on your preferences */
+  

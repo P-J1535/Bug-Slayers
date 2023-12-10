@@ -1,0 +1,42 @@
+.custom-table th {
+  background-color: orange;
+  color: #fff;
+}
+
+.custom-table tbody tr:nth-child(even) {
+  background-color: rgb(114, 114, 246);
+}
+/* Table.css */
+
+.custom-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.custom-table th,
+.custom-table td {
+  border: 1px solid #dddddd;
+  /* text-align: center; */
+  padding: 8px;
+}
+.custom-table li {
+  /* list-style: none; */
+}
+@media (max-width: 600px) {
+  /* Styles for mobile devices */
+  .custom-table th,
+  .custom-table td {
+    font-size: 12px;
+  }
+}
+
+@media (min-width: 601px) and (max-width: 1024px) {
+  /* Styles for tablets */
+  .custom-table th,
+  .custom-table td {
+    font-size: 14px;
+  }
+}
+
+/* Add more media queries as needed for larger screens */
