@@ -168,7 +168,7 @@ const [selectedQuestionSet, setSelectedQuestionSet] = useState(null);
 const fetchData = async () => {
     try {
     // Make an API call using Axios
-    const response = await axios.get("https://pwf7r20w-3000.inc1.devtunnels.ms/test");
+    const response = await axios.get("http://localhost:6000/test");
     
     // Assuming the data is stored in response.data
 
@@ -187,16 +187,16 @@ useEffect(() => {
 
 
 const countOfCpp = () =>{
-   const count   = testsData.filter(res=> res.subjectName === 'C++').length ;
+   const count   = testsData?.filter(res=> res?.subjectName === 'C++').length ;
    return count
 }
 
 const countofjava  =()=> {
-    const count   = testsData.filter(res=> res.subjectName === 'Java').length ;
+    const count   = testsData?.filter(res=> res?.subjectName === 'Java').length ;
    return count
 }
 const countofReactjs =() =>{
-    const count   = testsData.filter(res=> res.subjectName === 'ReactJS').length ;
+    const count   = testsData?.filter(res=> res?.subjectName === 'ReactJS').length ;
    return count
 }
 
@@ -258,11 +258,11 @@ rowSpacing={{ xs: 2, sm: 2, md: 3 }}
             </TableRow>
           </TableHead>
           <TableBody>
-            {testsData.map((row) => (
+            {testsData?.map((row) => (
               <TableRow key={row._id} onClick={() => handleRowClick(row)}>
                 <TableCell>{row.testId}</TableCell>
-                <TableCell>{row.subjectName}</TableCell>
-                <TableCell>{row.subjectName} {"30min"}</TableCell>
+                <TableCell>{row?.subjectName}</TableCell>
+                <TableCell>{row.time} {"30min"}</TableCell>
                 <TableCell>{row.count}</TableCell>
                 <TableCell>{row.questionType}</TableCell>
 
@@ -279,16 +279,16 @@ rowSpacing={{ xs: 2, sm: 2, md: 3 }}
              <div >
                 <div style={{padding:'20px',display:'flex',justifyContent:'space-between'}}>
                     <div>
-      <h1>Sub Name: {selectedQuestionSet.subjectName} </h1>
-      <h2>Test ID: {selectedQuestionSet.testId}</h2>
+      <h1>Sub Name: {selectedQuestionSet?.subjectName} </h1>
+      <h2>Test ID: {selectedQuestionSet?.testId}</h2>
       </div>    
       <div>
-      <p>Time: {selectedQuestionSet.time} minutes</p>
-      <p>Number of Questions: {selectedQuestionSet.count}</p>
+      <p>Time: {selectedQuestionSet?.time} minutes</p>
+      <p>Number of Questions: {selectedQuestionSet?.count}</p>
       </div>
       </div>
       <div style={{height:'350px',overflow:'auto'}}>
-      <QuestionSet questionData={selectedQuestionSet.QuestionSet} />
+      <QuestionSet questionData={selectedQuestionSet?.QuestionSet} />
       </div>
     </div> 
            <div style={{display:'flex',justifyContent:'center',paddingX:'30px',marginTop:'30px'}}>

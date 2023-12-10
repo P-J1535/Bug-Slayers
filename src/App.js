@@ -3,12 +3,13 @@ import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import Sidebar from './components/Dashboard/Sidebar';
 import './App.css';
 import Login from './components/Login/Login';
+import { useSelector } from 'react-redux';
 // import { AuthProvider } from './context/AuthProvider';
 
 
 function App() {
 
- const rtoken = 'token';
+ const rtoken = useSelector((state)=> state.authData.token)
  
   const isAuthenticated =  rtoken != null;
 

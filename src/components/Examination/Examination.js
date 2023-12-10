@@ -15,6 +15,7 @@
         Paper,
         Typography,
         Grid,
+        Button
 
     } from '@mui/material';
 
@@ -31,8 +32,8 @@
 
 
     const gridText = {
-        fontSize: '20px',
-        fontWeight: '600',
+      fontSize: '30px',
+      fontWeight: '600',
         color: 'white',
       }
       
@@ -85,7 +86,7 @@
     const fetchData = async () => {
         try {
         // Make an API call using Axios
-        const response = await axios.get("https://pwf7r20w-3000.inc1.devtunnels.ms/question");
+        const response = await axios.get("http://localhost:6000/question");
         
         // Assuming the data is stored in response.data
 
@@ -154,7 +155,9 @@
   </Grid>
   {/* ... other grid items */}
 </Grid>
-
+<Box sx={{display:'flex',justifyContent:'flex-end',my:1}}>
+    <Button variant='contained' sx={{px:2}}>Create Question</Button>
+</Box>
         <TableContainer component={Paper} style={{ height: '500px', overflow: 'auto' }}>
                 <Table>
                     <TableHead>

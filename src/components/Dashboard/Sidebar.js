@@ -33,6 +33,7 @@ import MenuItem from "@mui/material/MenuItem";
 import { useNavigate } from "react-router-dom";
 import Examination from "../Examination/Examination";
 import Test from "../Test.js/Test";
+import { useSelector } from "react-redux";
 
 const drawerWidth = 210;
 
@@ -109,6 +110,8 @@ function Sidebar() {
   const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = React.useState(null);
 
+  const username = useSelector((state)=> state.authData.user)
+
   const handleDrawerClose = () => {
     setOpen(false);
   };
@@ -118,7 +121,7 @@ function Sidebar() {
   };
 
   const isMenuOpen = Boolean(anchorEl);
-  const userDetails = { name: 'John Doe' }; // Replace this with your user details
+  const userDetails = { name: username }; // Replace this with your user details
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -268,7 +271,7 @@ function Sidebar() {
                     }}
                   >
                     <ListItemIcon>
-                      <PeopleAltIcon sx={{ color: "white" }} />
+                      {/* <PeopleAltIcon sx={{ color: "white" }} /> */}
                     </ListItemIcon>
                     <ListItemText
                       primaryTypographyProps={{
@@ -297,7 +300,7 @@ function Sidebar() {
                     }}
                   >
                     <ListItemIcon>
-                      <PeopleAltIcon sx={{ color: "white" }} />
+                      {/* <PeopleAltIcon sx={{ color: "white" }} /> */}
                     </ListItemIcon>
                     <ListItemText
                       primaryTypographyProps={{

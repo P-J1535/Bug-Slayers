@@ -1,9 +1,13 @@
 import React, { useState } from 'react';
 import './Login.css';
 import { useNavigate } from 'react-router';
+import axios from 'axios';
+import { setLogin } from '../state/authState';
+import { useDispatch, useSelector } from 'react-redux';
 
 function Login() {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
   const [isSignUpMode, setIsSignUpMode] = useState(false);
   const [formData, setFormData] = useState({
     username: '',
@@ -30,30 +34,33 @@ function Login() {
   };
 
 
-  const handleLogin = async(e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    try {
-        const response = await fetch('https://pwf7r20w-3000.inc1.devtunnels.ms/user/login', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(formData), // Send the userData object as JSON in the request body
-        });
   
-        if (response.ok) {
-          // Handle success, maybe show a success message
-          console.log('User login up successfully');
-          navigate('/');
-          
-        //   setUserData(null)
-        } else {
-          // Handle failure, maybe show an error message
-          console.error('Error login up user');
-        }
-      } catch (error) {
-        console.error('Error:', error);
+    try {
+      const response = await axios.post('http://localhost:6000/user/login', formData, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+  
+      if (response.status === 200) {
+        // Handle success, maybe show a success message
+        console.log('User logged in successfully');
+        navigate('/');
+        dispatch(setLogin({
+          token:response.data.token,
+          user:response.data.username
+        }))
+        console.log(response)
+        // setUserData(null)
+      } else {
+        // Handle failure, maybe show an error message
+        console.error('Error logging in user');
       }
+    } catch (error) {
+      console.error('Error:', error);
+    }
   };
 
   const handleInputChange = (e) => {
@@ -143,7 +150,7 @@ function Login() {
                 onChange={handleInputChange}
               />
             </div>
-            <div className="input-field">
+            {/* <div className="input-field">
             <select
   name="userType"
   value={signupData.userType}
@@ -153,10 +160,9 @@ function Login() {
   <option value="customer">Customer</option>
   <option value="admin">Admin</option>
   <option value="manager">Manager</option>
-  {/* Add other options as needed */}
 </select>
 
-            </div>
+            </div> */}
             <input type="submit" className="btn" value="Sign up" />
           </form>
         </div>
