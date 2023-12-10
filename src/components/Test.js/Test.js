@@ -116,8 +116,10 @@ const [selectedQuestionSet, setSelectedQuestionSet] = useState(null);
   const [openSendTestModal, setOpenSendTestModal] = useState(false);
   const [openCreateTestModal ,setOPenCreateTestModal] = useState(false);
   const handleCloseTest = () =>{
-    setOPenCreateTestModal(true);
+    setOPenCreateTestModal(false);
   }
+
+  
 
   const handleOpenTest = () =>{
     setOPenCreateTestModal(true);
@@ -211,6 +213,8 @@ const sendMail = async () => {
 
     console.log("success fully send mail");
     handleCloseSendTestModal(); 
+    setStudentName("");
+    setStudentEmail("");
   } catch (error) {
     console.error("Error fetching data:", error);
   }
@@ -271,7 +275,7 @@ rowSpacing={{ xs: 2, sm: 2, md: 3 }}
 <Box sx={{display:'flex',justifyContent:'flex-end',my:1}}>
     <Button variant='contained' sx={{px:2}}  onClick={handleOpenTest}>Create Test</Button>
 </Box>
-    <TableContainer component={Paper} style={{ height: '500px', overflow: 'auto' }}>
+    <TableContainer component={Paper} style={{ height: '450px', overflow: 'auto' }}>
         <Table>
           <TableHead>
           <TableRow className={classes.tableHead}>
@@ -288,12 +292,12 @@ rowSpacing={{ xs: 2, sm: 2, md: 3 }}
               {/* Other table headers if needed */}
             </TableRow>
           </TableHead>
-          <TableBody>
+          <TableBody> 
             {testsData?.map((row) => (
               <TableRow key={row._id} onClick={() => handleRowClick(row)}>
                 <TableCell>{row.testId}</TableCell>
                 <TableCell>{row?.subjectName}</TableCell>
-                <TableCell>{row.time} {"30min"}</TableCell>
+                <TableCell>{row.time} {"min"}</TableCell>
                 <TableCell>{row.count}</TableCell>
                 <TableCell>{row.questionType}</TableCell>
 
@@ -324,6 +328,8 @@ rowSpacing={{ xs: 2, sm: 2, md: 3 }}
     </div> 
            <div style={{display:'flex',justifyContent:'center',paddingX:'30px',marginTop:'30px'}}>
             <Button sx={{pr:3,mr:4}}  variant='contained' onClick={handleSendTest}>Send Test</Button>
+            <Button sx={{pr:3,mr:4}}  variant='contained' onClick={handleCloseQuestionSetModal}>Cancel</Button>
+
             </div>
             </Box>
         </Modal>
@@ -374,7 +380,7 @@ rowSpacing={{ xs: 2, sm: 2, md: 3 }}
 
       <Modal open={openCreateTestModal} onClose={handleCloseTest}>
             <Box style={style2}>
-              <CreateTest/>
+              <CreateTest  handleCloseTest={handleCloseTest} getData={fetchData} />
               </Box>
               </Modal>
     </Box>

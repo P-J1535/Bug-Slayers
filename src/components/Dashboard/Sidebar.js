@@ -34,6 +34,7 @@ import { useNavigate } from "react-router-dom";
 import Examination from "../Examination/Examination";
 import Test from "../Test.js/Test";
 import { useSelector } from "react-redux";
+import Report from "../Report/Report";
 
 const drawerWidth = 210;
 
@@ -228,8 +229,10 @@ function Sidebar() {
               >
                 <MenuIcon sx={{ color: "#888888" }} />
               </IconButton>
-              <Box>
-                <Typography sx={{ color: 'black' }}>Bugs Slayers</Typography>
+              <Box sx={{display:'flex',alignItems:'center'}}> 
+
+                <img src="https://freepngimg.com/save/18004-bug-png-6/555x785" style={{width:'50px'}}></img>
+                <Typography sx={{ color: 'black' ,fontSize:'30px' ,fontWeight:'bold' }}>Bugs Slayers</Typography>
               </Box>
               {/* ... */}
             </Toolbar>
@@ -313,7 +316,33 @@ function Sidebar() {
                     </ListItemText>
                   </ListItemButton>
                 </ListItem>
-
+                <ListItem
+                  disablePadding
+                  onClick={() => {
+                    navigate("/report ");
+                  }}
+                >
+                  <ListItemButton
+                    sx={{
+                      minHeight: 48,
+                      justifyContent: open ? "initial" : "center",
+                      px: 2.5,
+                    }}
+                  >
+                    <ListItemIcon>
+                      {/* <PeopleAltIcon sx={{ color: "white" }} /> */}
+                    </ListItemIcon>
+                    <ListItemText
+                      primaryTypographyProps={{
+                        fontSize: "14px",
+                        fontWeight: "600",
+                        color: "white",
+                      }}
+                    >
+                     Report
+                    </ListItemText>
+                  </ListItemButton>
+                </ListItem>
 
 
 
@@ -369,6 +398,8 @@ function Sidebar() {
                 <Routes>
                 <Route path="questionslab" element={<Examination />} />
                 <Route path="questionsSet" element={<Test/>} />
+                <Route path="report" element={<Report/>} />
+
                   <Route path="" element={<Navigate to="/questionslab" />} />
 
                   </Routes>

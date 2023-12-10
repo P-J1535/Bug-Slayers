@@ -19,14 +19,27 @@ function Login() {
     password: '',
     phone: '',
     email: '',
-    userType: '', // For the userType selection
   });
 
 
-  const handleSignUp = (e) => {
+  const handleSignUp = async(e) => {
     e.preventDefault();
-    // Process signup logic here using 'signupData'
-    console.log('Signup Data:', signupData);
+    try {
+      const response = await axios.post('http://localhost:5000/user/signUp', signupData);
+  
+      if (response.status === 201) {
+        // Handle success, maybe show a success message
+        console.log('User signUp successfully');
+        setIsSignUpMode(false)
+
+        // setUserData(null)
+      } else {
+        // Handle failure, maybe show an error message
+        console.error('Error logging in user');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
   };
 
   const handleToggleMode = () => {
@@ -38,11 +51,7 @@ function Login() {
     e.preventDefault();
   
     try {
-      const response = await axios.post('http://localhost:5000/user/login', formData, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
+      const response = await axios.post('http://localhost:5000/user/login', formData);
   
       if (response.status === 200) {
         // Handle success, maybe show a success message
@@ -117,7 +126,7 @@ function Login() {
                 placeholder="Username"
                 name="username"
                 value={signupData.username}
-                onChange={handleInputChange}
+                onChange={handleFormInputChange}
               />
             </div>
             <div className="input-field">
@@ -127,7 +136,7 @@ function Login() {
                 placeholder="Email"
                 name="email"
                 value={signupData.email}
-                onChange={handleInputChange}
+                onChange={handleFormInputChange}
               />
             </div>
             <div className="input-field">
@@ -137,7 +146,7 @@ function Login() {
                 placeholder="Password"
                 name="password"
                 value={signupData.password}
-                onChange={handleInputChange}
+                onChange={handleFormInputChange}
               />
             </div>
             <div className="input-field">
@@ -147,7 +156,7 @@ function Login() {
                 placeholder="Phone"
                 name="phone"
                 value={signupData.phone}
-                onChange={handleInputChange}
+                onChange={handleFormInputChange}
               />
             </div>
             {/* <div className="input-field">

@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { Button, Select } from '@mui/material';
+import MenuItem from '@mui/material/MenuItem';
 
-function CreateTest() {
+const CreateTest = ({handleCloseTest , getData}) => {
   const [selectedSubject, setSelectedSubject] = useState('');
   const [selectedQuestions, setSelectedQuestions] = useState([]);
   const [questionData, setQuestionData] = useState([]);
+  const [questionSet, setQuestionSet] = useState([]);
 
   const fetchData = async () => {
     try {
@@ -20,9 +23,21 @@ function CreateTest() {
     fetchData();
   }, []);
 
-  const getQuestionsBySubject = (subject) => {
-    return questionData.filter((row) => row.subject_name === subject);
-  };
+  useEffect(() => {
+    const fetchQuestions = async () => {
+      setSelectedQuestions([])
+      try {
+        const response = await axios.get(`http://localhost:5000/question/${selectedSubject}`);
+        setQuestionSet(response.data.questions);
+      } catch (error) {
+        console.error('Error fetching questions:', error);
+      }
+    };
+
+    if (selectedSubject !== '') {
+      fetchQuestions();
+    }
+  }, [selectedSubject]);
 
   const handleCreateTest = (subject) => {
     setSelectedSubject(subject);
@@ -39,88 +54,105 @@ function CreateTest() {
       setSelectedQuestions(updatedSelection);
     }
   };
-// Render subject selection input field
-// ...
 
-const handleSubmitTest = () => {
-    // Filter the selected questions with their details
+
+  const handleCheckboxChange = (question) => {
+    const foundIndex = selectedQuestions.findIndex((q) => q._id === question._id);
+
+    if (foundIndex === -1 && selectedQuestions.length < 10) {
+      setSelectedQuestions([...selectedQuestions, question]);
+    } else if (foundIndex !== -1) {
+      const updatedSelection = [...selectedQuestions];
+      updatedSelection.splice(foundIndex, 1);
+      setSelectedQuestions(updatedSelection);
+    }
+  };
+
+
+   console.log(selectedQuestions)
+  const handleSubmitTest = () => {
     const selectedQuestionsDetails = questionData
-        .filter((question) => selectedQuestions.includes(question._id))
-        .map(({ _id, question, option, Answer }) => ({
-            _id,
-            question,
-            option,
-            Answer,
-        }));
+      .filter((question) => selectedQuestions.includes(question._id))
+      .map(({ _id, question, option, Answer }) => ({
+        _id,
+        question,
+        option,
+        Answer,
+      }));
 
-    // Prepare the data to be sent to the API
     const testSubmissionData = {
-        subjectName: selectedSubject,
-        questionType: 'Mcq',
-        QuestionSet: selectedQuestionsDetails,
-        count: selectedQuestionsDetails.length,
+      subjectName: selectedSubject,
+      questionType: 'Mcq',
+      QuestionSet: selectedQuestions,
+      count: selectedQuestions.length,
     };
 
-    // Send 'testSubmissionData' to your API endpoint using Axios or Fetch
-    // Example Axios POST request
-    axios.post('http://your-api-endpoint.com/submit-test', testSubmissionData)
-        .then((response) => {
-            // Handle response from the API
-            console.log('Test submitted successfully!', response.data);
-        })
-        .catch((error) => {
-            // Handle errors
-            console.error('Error submitting test:', error);
-        });
-};
-
-
-// Inside the Modal to show detailed question set
-// Display questions for the selected subject with checkboxes
-{
-  selectedSubject && (
-    <div style={{ height: '350px', overflow: 'auto' }}>
-      {getQuestionsBySubject(selectedSubject)?.map((question) => (
-        <div key={question._id}>
-          <input
-            type="checkbox"
-            checked={selectedQuestions.includes(question._id)}
-            onChange={() => handleQuestionSelection(question._id)}
-          />
-          <span>{question.question}</span>
-        </div>
-      ))}
-    </div>
-  );
-}
+    axios.post('http://localhost:5000/test', testSubmissionData)
+      .then((response) => {
+        handleCloseTest();
+        console.log('Test submitted successfully!', response.data);
+        getData();
+      })
+      .catch((error) => {
+        console.error('Error submitting test:', error);
+      });
+  };
 
   return (
-    <div>
-    <select onChange={(e) => handleCreateTest(e.target.value)}>
-      <option value="">Select Subject</option>
-      {/* Assuming the subjects are unique */}
-      {[...new Set(questionData.map((item) => item.subject_name))].map((subject) => (
-        <option key={subject} value={subject}>
-          {subject}
-        </option>
-      ))}
-    </select>
-    {selectedSubject && (
-      <div style={{ height: '350px', overflow: 'auto' }}>
-        {getQuestionsBySubject(selectedSubject)?.map((question) => (
-          <div key={question._id}>
-            <input
-              type="checkbox"
-              checked={selectedQuestions.includes(question._id)}
-              onChange={() => handleQuestionSelection(question._id)}
-            />
-            <span>{question.question}</span>
-          </div>
-        ))}
+    <div style={{padding:"20px"}}> 
+      <div style={{display:'flex',alignItems:'center',gap:'20px'}}>
+      <h3>Select Subject</h3>
+      <Select  size="small" sx={{width:"300px"}} value={selectedSubject} onChange={(e) => handleCreateTest(e.target.value)}>
+        <MenuItem value="">
+          <em>Select Subject</em>
+        </MenuItem>
+       
+          <MenuItem value={"C++"}>
+            C++
+          </MenuItem>
+          <MenuItem value={"Java"}>
+              Java
+          </MenuItem>
+          <MenuItem value={"ReactJs"}>
+            ReactJS
+          </MenuItem>
+      </Select>
       </div>
-    )}
-    <button onClick={handleSubmitTest}>Submit Test</button>
-  </div>  )
-}
+      <div style={{display:'flex',justifyContent:'space-between'}}>
 
-export default CreateTest
+      
+      <h4>Select 10 Questions for test:</h4>  
+      <h6>{selectedQuestions?.length} /10</h6>  
+      </div>
+      <div style={{ minHeight: '360px', maxHeight:'360px', overflow: 'auto' }}>
+        {questionSet && (
+          <div style={{ fontFamily: 'Arial, sans-serif', padding: '20px', backgroundColor: '#f7f7f7' }}>
+            {questionSet.map((question, index) => (
+              <div key={question._id} style={{ marginBottom: '20px', boxShadow: '0 0 5px rgba(0,0,0,0.2)', padding: '15px', borderRadius: '5px', backgroundColor: '#ffffff' }}>
+                 <input
+                  type="checkbox"
+                  checked={selectedQuestions.includes(question)}
+                  onChange={() => handleCheckboxChange(question)}
+                />
+                <h3 style={{ marginBottom: '10px', fontSize: '18px', fontWeight: 'bold', color: '#333333' }}>{`Question ${index + 1}: ${question.question}`}</h3>
+                <ul style={{ listStyleType: 'none', padding: '0' }}>
+                  {question.option.map((opt, i) => (
+                    <li key={i} style={{ fontSize: '14px', marginBottom: '5px', color: '#666666' }}>{`${i + 1}. ${opt}`}</li>
+                  ))}
+                </ul>
+                <p style={{ marginTop: '10px', fontSize: '14px', fontWeight: 'bold', color: '#333333' }}>Answer: {question.Answer}</p>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+      <div style={{display:'flex',justifyContent:'center',gap:'20px'}}>
+      <Button sx={{mt:1,}} variant='contained' onClick={handleSubmitTest}>Create Test</Button>
+      <Button sx={{mt:1,}} variant='contained' onClick={handleCloseTest}>Cancel</Button>
+
+      </div>
+    </div>
+  );
+};
+
+export default CreateTest;
