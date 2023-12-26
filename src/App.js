@@ -1,22 +1,29 @@
-import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
+import Sidebar from './components/Dashboard/Sidebar';
 import './App.css';
-import LoginAndSignUp from './components/Login&SignUp/LoginAndSignUp';
-import Cards from './components/Cards.js/Cards';
-import Exam from './components/Exam/Exam';
+import Login from './components/Login/Login';
+import { useSelector } from 'react-redux';
+// import { AuthProvider } from './context/AuthProvider';
+
 
 function App() {
+
+ const rtoken = useSelector((state)=> state.authData.token)
+ 
+  const isAuthenticated =  rtoken != null;
+
   return (
-    <Router>
-      <div style={{ backgroundColor: 'white' }}>
-        <Routes>
-        <Route exact path="/*" element={<LoginAndSignUp/>} />
-        <Route path="/cards" element={<Cards/>} />
-        <Route path="/exam" element={<Exam/>} />
-        {/* Add more Route components for other routes */}
-        </Routes>
-      </div>
-    </Router>
+    <>
+      <BrowserRouter>
+          <Routes>
+                     <Route exact path='/login' element={<Login />} /> 
+                     <Route  path='/*' element={<Sidebar />} /> 
+
+                     </Routes>
+
+      </BrowserRouter>
+    </>
   );
 }
 

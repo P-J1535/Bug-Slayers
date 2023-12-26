@@ -1,0 +1,57 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+* {
+  font-family: 'Roboto';
+}
+
+.drawer::-webkit-scrollbar {
+  width: 0px;
+}
+
+.Icons {
+  width: 16px;
+  color:'blue';
+}
+
+.logo {
+  width: 130px;
+  height: 100%;
+
+}
+
+.active {
+  background-color: #db0e0e;
+
+}
+
+.DrawerDiv > div::-webkit-scrollbar {
+  width: 3px;
+}
+
+::-webkit-scrollbar {
+  width: 0px;
+  color:grey;
+}
+
+
+.listItemText {
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  color: white;
+}
+
+
+@media screen and (max-width:768px) {
+  .DrawerDiv > div {
+    position: fixed;
+    z-index:1300;
+
+  }
+  .DrawerDiv2 > div {
+    width: 0;
+    display: none;
+    visibility: hidden;
+    
+  }
+
+}
